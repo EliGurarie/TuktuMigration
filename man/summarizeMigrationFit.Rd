@@ -2,12 +2,12 @@
 % Please edit documentation in R/summarizeFit.R
 \name{summarizeMigrationFit}
 \alias{summarizeMigrationFit}
-\title{summarize fit}
+\title{Summarize hierarchical migration fit}
 \usage{
-summarizeMigrationFit(fit_list)
+summarizeMigrationFit(fit)
 }
 \arguments{
-\item{fit_list}{Output of a migration fit object}
+\item{fit}{output of \link{fitHierarchicalMigration}}
 }
 \value{
 A list including estimates of migration times (start and duration) and standard deviations, 
@@ -15,5 +15,5 @@ centroid of respective starting and ending ranges, and estimated ellipses of the
 and after the migration
 }
 \description{
-summarize fit
+Summarize hierarchical migration fit
 }

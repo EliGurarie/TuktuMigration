@@ -4,12 +4,12 @@ Title:
 Version: 0.0.0.1
 Author: Eliezer Gurarie
 Maintainer: Eliezer Gurarie <egurarie@esf.edu>
-Description: TuktuMigration is a package for estimating indiviudal and hierarchical migration and range shifts
+Description: TuktuMigration provides tool for estimating a hierarchical migration model
 License: GNU General Public License
 Encoding: UTF-8
 LazyData: false
-Depends: R (>= 4.0.0), lubridate, magrittr, plyr, dplyr, sp, sf
-Suggests: mapview, stringr, adehabitatHR, knitr, rmarkdown
+Depends: R (>= 4.0.0), lubridate, magrittr, plyr, dplyr, sp, sf, coda
+Suggests: mapview, stringr, knitr, rmarkdown, gplots
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Biarch: true

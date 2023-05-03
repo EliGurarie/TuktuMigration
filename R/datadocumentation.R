@@ -1,36 +1,9 @@
-#' Movement data of barren-ground caribou
-#'
-#' @usage 
-#' data(caribou)
-#' 
-#' @name caribou
-#' 
-#' @format data frame with the following columns: 
-#' #' \describe{
-#'   \item{ID}{ID of animal}
-#'   \item{sex}{Sex of the animal}
-#'   \item{Time}{Date and time of each GPS location}
-#'   \item{Year}{Year of the GPS location}
-#'   \item{Lon,Lat}{Coordinates of the GOS locations in WGS84}
-#'   \item{x,y}{Coordinates of the GOS locations in Canada Lambert Conformal Conic (crs = "+proj=lcc +lat_1=50 +lat_2=70 +lat_0=65 +lon_0=-120 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")}
-#' }
-#' 
-#' These are real data courtesy of NWT Department of Environment and Natural Resources
-#' but anonymized and shifted in time, longitude and latitude. 
-#' 
-#' @example examples/example_caribou.R
-#'
-#' @source GNWT Department of Environment and Natural Resources
-#' @keywords data
-"caribou"
-
-
 #' Simulated migrations of 18 caribou
 #'
 #' Simulated migration data provided to illustrate some of the features of the 
-#' TuktuTools package.  Two objects are loaded: 
+#' TuktuTools and TuktuMigration package.  Two objects are loaded: 
 #' \describe{
-#' \item{\code{simulated_migrations} is a data frame with Lat-Long coordinates,}
+#' \item{\code{simulated_migrations} is a data frame with Lat-Long coordinates.}
 #' \item{\code{simulated_migrations.sf} is a georeferenced simple feature object.} 
 #'}
 #'
@@ -60,3 +33,20 @@
 #' @source Gurarie & Cheraghi (2017). marcher: Migration and Range Change Estimation in R. R package version 0.0-2,
 #' @keywords data
 "simulated_migrations"
+
+
+#' Estimated migrations for simulated data
+#'
+#' Output of \code{\link{fitHierarchicalMigration}} function as applied to simulated migration data
+#' \code{\link{simulated_migrations}}. 
+#'
+#' @details This is a list of three: \code{stan_data} - the data inputted into the STAN sampler, 
+#' \code{raw_data} - the raw simple feature data, and \code{migration_fit}, the complete STAN sampler
+#' ouput - i.e. all the MCMC chains and summary stats. 
+#' 
+#' @usage 
+#' data(sims_fit)
+#' 
+#' @name sims_fit
+#' 
+"sims_fit"

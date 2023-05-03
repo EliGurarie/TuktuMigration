@@ -2,7 +2,7 @@
 
 export(fitHierarchicalMigration)
 export(getDailyMean)
-export(getInits)
+export(getInitialValues)
 export(mapFits)
 export(plotHierarchicalMigration)
 export(prepData_migration)

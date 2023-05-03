@@ -18,8 +18,9 @@ plotHierarchicalMigration <- function(fit,
   
   migration_fit <- fit$migration_fit
   stan_data <- fit$stan_data
-  
-  phats <- summary(migration_fit)$summary[,"50%"]
+  summary_fit <- getS3method("summary", "mcmc.list")(As.mcmc.list(migration_fit))
+    
+  phats <- summary_fit$quantiles[,"50%"]
   Mus <- phats[grep("mean", names(phats))]
   sds <- phats[grep("sd", names(phats))]
   Sigmas <- phats[grepl("sigma", names(phats)) & grepl("mu", names(phats))]

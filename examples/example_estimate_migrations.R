@@ -1,7 +1,7 @@
 require(TuktuTools)
 require(TuktuMigration)
 
-# Initialize data -----
+#  Load, view, and initialize data -----
 
 data("simulated_migrations")
 
@@ -14,9 +14,15 @@ scan_tracks(sims_dailymean, time.col = "yday", legend = FALSE,
             col = rainbow(18))
 
 sims_prepped <- prepData_migration(sims_dailymean)
-inits <- getInits(sims_prepped, t_mean = 120, dt_mean = 20)
-sims_fit <- fitHierarchicalMigration(sims_prepped, initial_values = inits, 
-                                     iter = 1000, cores = 4)
+inits <- getInitialValues(sims_prepped, t_mean = 120, dt_mean = 20)
+
+## This runs the sampling - which can taks some time.
+## Otherwise just load the output of the fit
+
+eval <- FALSE; if(eval){
+  sims_fit <- fitHierarchicalMigration(sims_prepped, initial_values = inits, 
+                                       iter = 1000, cores = 4)
+} else data("sims_fit")
 
 plotHierarchicalMigration(sims_fit, type = "fit")
 plotHierarchicalMigration(sims_fit, type = "density")

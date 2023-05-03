@@ -1,6 +1,6 @@
-#' summarize fit
+#' Summarize hierarchical migration fit
 #' 
-#' @param fit_list Output of a migration fit object
+#' @param fit output of \link{fitHierarchicalMigration}
 #' 
 #' @return A list including estimates of migration times (start and duration) and standard deviations, 
 #' centroid of respective starting and ending ranges, and estimated ellipses of the ranging areas before
@@ -8,11 +8,11 @@
 #' 
 #' @export
 
-summarizeMigrationFit <- function(fit_list){
+summarizeMigrationFit <- function(fit){
   
-  data_raw <- fit_list$raw_data
-  data_input <- fit_list$stan_data
-  migration_fit <- fit_list$migration_fit
+  data_raw <- fit$raw_data
+  data_input <- fit$stan_data
+  migration_fit <- fit$migration_fit
   
   # make data into simple feature lines
   
@@ -26,6 +26,7 @@ summarizeMigrationFit <- function(fit_list){
   
   chains <- rstan::As.mcmc.list(migration_fit)
   phats <- summary(chains)$quantiles[,"50%"]
+  
   Mus <- phats[grep("mean", names(phats))]
   sds <- phats[grep("sd", names(phats))]
   sigmas <- phats[grepl("sigma", names(phats)) & grepl("mu", names(phats))] %>% as.list

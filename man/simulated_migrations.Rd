@@ -23,9 +23,9 @@ data(simulated_migrations)
 }
 \description{
 Simulated migration data provided to illustrate some of the features of the 
-TuktuTools package.  Two objects are loaded: 
+TuktuTools and TuktuMigration package.  Two objects are loaded: 
 \describe{
-\item{\code{simulated_migrations} is a data frame with Lat-Long coordinates,}
+\item{\code{simulated_migrations} is a data frame with Lat-Long coordinates.}
 \item{\code{simulated_migrations.sf} is a georeferenced simple feature object.} 
 }
 }
