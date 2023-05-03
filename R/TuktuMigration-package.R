@@ -2,6 +2,7 @@
 #' 
 #' @docType package
 #' @name TuktuMigration-package
+#' @aliases TuktuMigration
 #' @import Rcpp
 #' @import methods
 #' @importFrom rstan sampling

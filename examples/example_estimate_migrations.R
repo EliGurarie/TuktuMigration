@@ -1,5 +1,6 @@
 rm(list=ls())
 require(TuktuTools)
+require(TuktuMigration)
 require(rstan)
 
 # Initialize data -----
@@ -17,8 +18,8 @@ scan_tracks(sims_dailymean, time.col = "yday", legend = FALSE,
             col = rainbow(18))
 
 
-source("R/getInits.R")
-source("R/prepData_migration.R")
+#source("R/getInits.R")
+#source("R/prepData_migration.R")
 
 
 # Load Rstan -----
@@ -32,29 +33,13 @@ eval <- FALSE; if(eval){
 
 sims_prepped <- prepData_migration(sims_dailymean)
 inits <- getInits(sims_prepped, t_mean = 120, dt_mean = 20)
-f <- fitSpringMigration(sims_prepped)
-
-
-
-eval <- FALSE; if(eval){
-  migration.fit <- sampling(estimateMigrations, 
-                            data = sims_migration, 
-                            init = inits, iter = 1000, 
-                            chains = 4, cores = 4)
-  
-  myresults <- list(data_raw = sims.dailymean, 
-                    data_input = sims_migration, 
-                    migration_fit = migration.fit)
-  save(myresults, file = "sandbox/myresults.rda")
-} else load("sandbox/myresults.rda")
-
+sims_fit <- fitHierarchicalMigration(sims_prepped, initial_values = inits, 
+                                     iter = 1000, cores = 4)
 
 source("R/mapFits.R")
 source("R/summarizeFit.R")
-fit_summaries <- summarizeMigrationFit(myresults)
 
-require(mapview)
-with(fit_summaries, 
-     mapview(areas.sf) + mapview(centroids.sf, color = "red") + 
-       mapview(lines.sf, zcol = "id")
-)
+plotHierarchicalMigration(sims_fit, type = "fit")
+plotHierarchicalMigration(sims_fit, type = "density")
+plotHierarchicalMigration(sims_fit, type = "chains")
+plotHierarchicalMigration(sims_fit, type = "map")

@@ -14,6 +14,8 @@
 #' @return outputs a list with two elements: \code{raw_data} is just the input data in its 
 #' original form, \code{stan_data} is the data processed and reasy to be analyzed in the 
 #' hierarchical migration analysis. 
+#' 
+#' @export
 
 prepData_migration <- function(data, id.col = "ID", x.col = NULL, y.col = NULL,
                                time.col = "Time", yday.col = NULL){

@@ -3,4 +3,5 @@
 \docType{package}
 \name{TuktuMigration-package}
 \alias{TuktuMigration-package}
+\alias{TuktuMigration}
 \title{TuktuMigration}

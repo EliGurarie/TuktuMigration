@@ -8,10 +8,10 @@
 #' 
 #' @export
 
-summarizeMigrationFit <- summarizeMigrationFit <- function(fit_list){
+summarizeMigrationFit <- function(fit_list){
   
-  data_raw <- fit_list$data_raw
-  data_input <- fit_list$data_input
+  data_raw <- fit_list$raw_data
+  data_input <- fit_list$stan_data
   migration_fit <- fit_list$migration_fit
   
   # make data into simple feature lines
@@ -24,7 +24,8 @@ summarizeMigrationFit <- summarizeMigrationFit <- function(fit_list){
   
   # diagnose chains for each year
   
-  phats <- summary(rstan::As.mcmc.list(migration_fit))$quantiles[,"50%"]
+  chains <- rstan::As.mcmc.list(migration_fit)
+  phats <- summary(chains)$quantiles[,"50%"]
   Mus <- phats[grep("mean", names(phats))]
   sds <- phats[grep("sd", names(phats))]
   sigmas <- phats[grepl("sigma", names(phats)) & grepl("mu", names(phats))] %>% as.list

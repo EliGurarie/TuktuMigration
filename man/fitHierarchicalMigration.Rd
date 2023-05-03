@@ -4,7 +4,13 @@
 \alias{fitHierarchicalMigration}
 \title{Hierarchical estimation of migration timing}
 \usage{
-fitHierarchicalMigration(data_prepped, chains = 4, iter = 1000, ...)
+fitHierarchicalMigration(
+  data_prepped,
+  initial_values = NULL,
+  chains = 4,
+  iter = 1000,
+  ...
+)
 }
 \description{
 Hierarchical estimation of migration timing

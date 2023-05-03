@@ -6,82 +6,20 @@
 #' 
 #' 
 
-fitHierarchicalMigration <- function(data_prepped, chains = 4, iter = 1000, ...){
+fitHierarchicalMigration <- function(data_prepped, 
+                                     initial_values = NULL, 
+                                     chains = 4, 
+                                     iter = 1000, ...){
   
   migration_fit <- try(rstan::sampling(stanmodels$hierarchicalMigration, 
                                 data = data_prepped$stan_data, 
+                                init = initial_values, 
                                 iter = iter, 
-                                init = init, 
                                 chains = chains, ...))
   
-  myresults <- list(stan_data = data_prepped$stan_sata, 
-                    raw_data = raw_data, 
-                    migration_fit = migration.fit)
+  myresults <- list(stan_data = data_prepped$stan_data, 
+                    raw_data = data_prepped$raw_data, 
+                    migration_fit = migration_fit)
   return(myresults)
 }
 
-plotFits <- function(myfit, title = myfit$my.df$year[1], 
-                     fit = TRUE, density=TRUE, chains = TRUE){
-  require(rstan)
-  require(gplots)
-  require(mixtools)
-  
-  migration.fit <- myfit$migration.fit
-  my.data <- myfit$my.data
-  
-  phats <- summary(migration.fit)$summary[,"50%"]
-  Mus <- phats[grep("mean", names(phats))]
-  sds <- phats[grep("sd", names(phats))]
-  Sigmas <- phats[grepl("sigma", names(phats)) & grepl("mu", names(phats))]
-  rhos <- phats[grep("rho", names(phats))]
-  S1 <- matrix(c(Sigmas[1]^2, rhos[1]*Sigmas[1]*Sigmas[2],
-                 rhos[1]*Sigmas[1]*Sigmas[2], Sigmas[2]^2), 2, 2)
-  S2 <- matrix(c(Sigmas[3]^2, rhos[2]*Sigmas[3]*Sigmas[4],
-                 rhos[2]*Sigmas[3]*Sigmas[4], Sigmas[4]^2), 2, 2)
-  Mu1 <- Mus[grepl("[1]", names(Mus))]
-  Mu2 <- Mus[grepl("[2]", names(Mus))]
-  Area1.95 <- ellipse(Mu1, S1, draw = FALSE)
-  Area2.95 <- ellipse(Mu2, S2, draw = FALSE)
-  Area1.50 <- ellipse(Mu1, S1, alpha = 0.5, draw = FALSE)
-  Area2.50 <- ellipse(Mu2, S2, alpha = 0.5, draw = FALSE)
-  mux1s <- phats[grepl("mux1", names(phats))]
-  muy1s <- phats[grepl("muy1", names(phats))]
-  mux2s <- phats[grepl("mux2", names(phats))]
-  muy2s <- phats[grepl("muy2", names(phats))]
-  yday.model <- with(my.data, c(min(yday), phats["t_mean"] + c(0, phats["dt_mean"]), max(yday)))
-  y.model <- with(my.data, rep(phats[c("muy_mean[1]", "muy_mean[2]")], each = 2))
-  x.model <- with(my.data, rep(phats[c("mux_mean[1]", "mux_mean[2]")], each = 2))
-  
-  n.ind <- max(my.data$id)
-  palette(rich.colors(n.ind))
-  
-  # plot this puppy!
-  
-  if(fit){
-    par(mar = c(0, 4, 0, 0), oma = c(4, 0, 4, 4), mgp = c(2,.5,0), 
-        cex.lab = 1.25, tck = 0.01, xpd=NA)
-    layout(rbind(c(1, 2), c(1, 3)))
-    with(my.data, plot(x,y, asp=1, col=id, pch = 19, cex=0.5))
-    d_ply(data.frame(my.data), "id", function(df) with(df, lines(x,y, col = id)))
-    polygon(Area1.95, col = alpha("darkred", .2), bor = NA)
-    polygon(Area2.95, col = alpha("darkred", .2), bor = NA)
-    polygon(Area1.50, col = alpha("darkred", .7), bor = NA)
-    polygon(Area2.50, col = alpha("darkred", .7), bor = NA)
-    with(my.data,plot(yday, y, col= alpha(id,.5), pch = 19, cex=0.5, xaxt="n", xlab=""))
-    d_ply(data.frame(my.data), "id",
-          function(df) with(df, lines(yday, y, col = alpha(id,.5))))
-    lines(yday.model, y.model, col="darkred", lwd = 4)
-    with(my.data,plot(yday, x, col= alpha(id,.5), pch = 19, cex=0.5,  xlab=""))
-    d_ply(data.frame(my.data), "id",
-          function(df) with(df, lines(yday, x, col = alpha(id,.5))))
-    lines(yday.model, x.model, col="darkred", lwd = 4)
-  }
-  # diagnostic plots
-  pars.fit <- migration.fit %>% names
-  pars <-  c("mux_mean[1]", "mux1_sigma", "muy_mean[1]", "muy1_sigma","rho1",
-             "mux_mean[2]", "mux2_sigma", "muy_mean[2]", "muy2_sigma","rho2",
-             "t_mean", "t_sd", "dt_mean", "dt_sd", "A", "sigma_ranging", "sigma_migration")
-  
-  if(density) stan_dens(migration.fit, par = pars, separate_chains = TRUE, ncol = 5) %>% print
-  if(chains) stan_trace(migration.fit, par = pars) %>% print
-}		
