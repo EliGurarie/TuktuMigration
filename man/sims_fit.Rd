@@ -19,4 +19,4 @@ This is a list of three: \code{stan_data} - the data inputted into the STAN samp
 \code{raw_data} - the raw simple feature data, and \code{migration_fit}, the complete STAN sampler
 ouput - i.e. all the MCMC chains and summary stats.
 }
-\keyword{datasets}
+\keyword{data}

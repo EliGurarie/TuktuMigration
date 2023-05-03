@@ -48,5 +48,5 @@
 #' data(sims_fit)
 #' 
 #' @name sims_fit
-#' 
+#' @keywords data
 "sims_fit"
