@@ -18,7 +18,7 @@ plotHierarchicalMigration <- function(fit,
   
   migration_fit <- fit$migration_fit
   stan_data <- fit$stan_data
-  summary_fit <- getS3method("summary", "mcmc.list")(As.mcmc.list(migration_fit))
+  summary_fit <- getS3method("summary", "mcmc.list")(rstan::As.mcmc.list(migration_fit))
     
   phats <- summary_fit$quantiles[,"50%"]
   Mus <- phats[grep("mean", names(phats))]
@@ -78,8 +78,8 @@ plotHierarchicalMigration <- function(fit,
   if(type == "map"){
     fit_summaries <- summarizeMigrationFit(fit)
     with(fit_summaries, 
-         mapview::mapview(areas.sf) + 
-           mapview::mapview(centroids.sf, color = "red") + 
-            mapview::mapview(lines.sf, zcol = "id"))
+         mapview::mapview(lines.sf, zcol = "id") +
+           mapview::mapview(areas.sf) +
+           mapview::mapview(centroids.sf, col.regions = "red", pch = 19))
   }
 }		

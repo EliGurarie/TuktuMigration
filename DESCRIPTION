@@ -8,7 +8,7 @@ Description: TuktuMigration provides tool for estimating a hierarchical migratio
 License: GNU General Public License
 Encoding: UTF-8
 LazyData: false
-Depends: R (>= 4.0.0), lubridate, magrittr, plyr, dplyr, sp, sf, coda
+Depends: R (>= 4.0.0), lubridate, magrittr, plyr, dplyr, sp, sf, coda, scales, rstan
 Suggests: mapview, stringr, knitr, rmarkdown, gplots
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr

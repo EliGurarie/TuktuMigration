@@ -55,17 +55,30 @@ summarizeMigrationFit <- function(fit){
       st_cast("POLYGON")
   }
   
-  Areas <- rbind(
+  Areas <- data.frame(area = c("Area1.95", "Area2.95", "Area1.50", "Area2.50"), 
+    rbind(
     Area1.95 = mixtools::ellipse(Mu1, S1, alpha = 0.05, draw = FALSE, npoints = 1000) %>% makeSF.polygon,
     Area2.95 = mixtools::ellipse(Mu2, S2, alpha = 0.05, draw = FALSE, npoints = 1000) %>% makeSF.polygon,
     Area1.50 = mixtools::ellipse(Mu1, S1, alpha = 0.5, draw = FALSE, npoints = 1000) %>% makeSF.polygon,
     Area2.50 = mixtools::ellipse(Mu2, S2, alpha = 0.5, draw = FALSE, npoints = 1000) %>% makeSF.polygon)
+  ) %>% st_as_sf
   
   # xysigma
   
-  # time results
-  Ts <- phats[c("t_mean", "dt_mean", "t_sd", "dt_sd")] %>% t %>% data.frame
-  return(list(time_estimates = Ts, 
+  quantiles <- summary(chains)$quantiles
+  phats <- t(cbind(estimate = quantiles[,"50%"], CI.low = quantiles[,"2.5%"], 
+                      CI.high = quantiles[,"97.5%"])) %>% data.frame
+  
+  T.hats <- phats[,c("t_mean", "dt_mean", "t_sd", "dt_sd")] %>% mutate(
+    departure = t_mean, 
+    departure.sd  = t_sd, 
+    arrival = t_mean + dt_mean, 
+    arrival.sd = (t_sd + dt_sd)/2, 
+    duration = dt_mean,
+    duration.sd = dt_sd, 
+    t_mean = NULL, dt_mean = NULL, t_sd = NULL, dt_sd = NULL) %>% t
+
+  return(list(time_estimates = T.hats, 
               centroids.sf = centroids.sf,
               areas.sf = Areas,
               lines.sf = data_lines))
