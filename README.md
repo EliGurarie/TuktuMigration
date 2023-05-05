@@ -2,20 +2,25 @@
 
 An R package for estimating collective migration behavior the hierarchical migration model developed in [Gurarie et al. (2019)](https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/ecs2.2971) to estimate migration timing for barren-ground caribou across North America.  This package uses a Bayesian MCMC sampler using [RStan](https://mc-stan.org/users/interfaces/rstan).  
 
-A resulting analysis looks something like this, illustrating the hierarchial range ellipse and estimates (with population-level standard deviations) of migration departure and arrival times for a population of migrating caribou:
+A resulting analysis looks something like The figure below: 
 
 ![](sandbox/FittedPlot.png)
 
-To install, run:
+illustrating the hierarchial range ellipse and estimates (with population-level standard deviations) of migration departure and arrival times for a population of migrating caribou:
+
+To install the package, run:
 
 ```
-devtools::install_github("egurarie/TuktuMigration")
+devtools::install_github("https://github.com/EliGurarie/TuktuMigration")
 ```
 
-Running the estimatoin relies on functions from the live, developmente version of the [TuktuTools](https://github.com/ocouriot/TuktuTools) package as well, which can be installed via:
+> **Note:** you may have to update quite a few packages to get TuktuMigration to install, 
+which (in our informal experience) involved restarting R a few times along the way. But persist! 
+
+Running the estimation relies on several functions from [TuktuTools](https://github.com/ocouriot/TuktuTools) package as well, which can be installed via:
 
 ```
-devtools::install_github("ocouriot/TuktuTools", build_vignettes = TRUE)
+devtools::install_github("https://github.com/ocouriot/TuktuTools", build_vignettes = TRUE)
 ```
 
-The other key dependency is the `rstan` package. 
+
