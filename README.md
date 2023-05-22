@@ -14,8 +14,10 @@ To install the package, run:
 devtools::install_github("https://github.com/EliGurarie/TuktuMigration")
 ```
 
-> **Note:** you may have to update quite a few packages to get TuktuMigration to install, 
-which (in our informal experience) involved restarting R a few times along the way. But persist! 
+> **Note:** you may have to update quite a few packages to get TuktuMigration to 
+> install, which (in our informal experience) involved restarting R a few times 
+> along the way. On Windows machines, you will also need to install the latest version
+> of [Rtools](https://cran.r-project.org/bin/windows/Rtools/). But persist! 
 
 Running the estimation relies on several functions from [TuktuTools](https://github.com/ocouriot/TuktuTools) package as well, which can be installed via:
 
